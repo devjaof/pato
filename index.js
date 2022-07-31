@@ -32,28 +32,46 @@ const Graphics = PIXI.Graphics;
 
   function patoSetup(loader, resources){
     const patoSprite = new PIXI.Sprite(resources.patoTexture.texture);
-    patoSprite.y = 600;
-    patoSprite.x = 600;
+    patoSprite.y = app.view.height / 2;
+    patoSprite.x = app.view.width / 2;
+    patoSprite.anchor.set(0.5);
+
     patoSprite.width = 100;
     patoSprite.height = 100;
+
     patoSprite.interactive = true;
-    patoSprite.buttonMode = true;
 
     // interactions
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'ArrowRight') {
-          patoSprite.x += 10;
+      // mouse interactions
+      app.stage.interactive = true;
+      app.stage.on('pointermove', movePlayer);
+      function movePlayer(e) {
+        let position = e.data.global;
+
+        patoSprite.x = position.x;
+        patoSprite.y = position.y;
+
+        if(patoSprite.y <= 580) {
+          patoSprite.y = 580
         }
-        if(e.key === 'ArrowLeft') {
-          patoSprite.x -= 10;
-        }
-        if(e.key === 'ArrowUp') {
-          patoSprite.y -= 10;
-        }
-        if(e.key === 'ArrowDown') {
-          patoSprite.y += 10;
-        }
-      })
+
+      }
+
+      // // keyboard interactions
+      // document.addEventListener('keydown', (e) => {
+      //   if(e.key === 'ArrowRight') {
+      //     patoSprite.x += 10;
+      //   }
+      //   if(e.key === 'ArrowLeft') {
+      //     patoSprite.x -= 10;
+      //   }
+      //   if(e.key === 'ArrowUp') {
+      //     patoSprite.y -= 10;
+      //   }
+      //   if(e.key === 'ArrowDown') {
+      //     patoSprite.y += 10;
+      //   }
+      // })
 
     app.stage.addChild(patoSprite);
   }
